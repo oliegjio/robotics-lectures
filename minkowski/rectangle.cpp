@@ -95,28 +95,18 @@ Vector1 Rectangle::vectorsFromCenter()
 Rectangle *Rectangle::copy()
 {
     Rectangle *rectangle = new Rectangle();
-    rectangle->points = points;
+    for (int i = 0 ; i < points.size(); i++) {
+        rectangle->points.append(Vector1());
+        for (int j = 0; j < points.last().size(); j++)
+        {
+            rectangle->points[i].append(points[i][j]);
+        }
+    }
     return rectangle;
 }
 
 Rectangle* Rectangle::minkowski_addition(Rectangle *rectangle, Vector1 centerVectors)
 {
-//    Rectangle *result = new Rectangle();
-
-//    for (int i = 0; i < rectangle->points.size(); i++)
-//    {
-//        result->points.append(Vector1());
-//        for (int j = 0; j < rectangle->points.last().size(); j++)
-//        {
-//            for (int k = 0; k < centerVectors.size(); k++)
-//            {
-//                int x = centerVectors[k].first + rectangle->points[i][j].first;
-//                int y = centerVectors[k].second + rectangle->points[i][j].second;
-//                result->points[i].append(Point(x, y));
-//            }
-//        }
-//    }
-
     Rectangle *result = rectangle->copy();
 
     for (int i = 0; i < rectangle->points.last().size(); i++)
@@ -149,7 +139,7 @@ Rectangle* Rectangle::minkowski_addition(Rectangle *rectangle, Vector1 centerVec
         }
     }
 
-    for (int i = 0; i < rectangle->points.size(); i++)
+    for (int i = 0; i < rectangle->points.last().size(); i++)
     {
         for (int j = 0; j < centerVectors.size(); j++)
         {
