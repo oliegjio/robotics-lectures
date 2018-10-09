@@ -22,6 +22,7 @@ public:
 
     static Shape *make_rectangle(int width, int height);
     static Shape *make_circle(int radius);
+    static Shape *minkowski_addition(Shape *shape, Shape *over);
 
     void draw(QWidget *widget);
 
@@ -29,8 +30,6 @@ public:
     void translate(int x, int y);
 
     QPoint *getCenter();
-
-    void minkowski_addition(Shape *shape);
 };
 
 #endif // RECTANGLE_H

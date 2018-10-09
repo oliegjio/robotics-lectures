@@ -5,14 +5,16 @@
 
 #define PI 3.14
 
-Shape::Shape() : Drawable() {}
+Shape::Shape() : Drawable()
+{
+    points = new QSet<QPoint*>;
+}
 
 Shape::~Shape() {}
 
 Shape *Shape::make_rectangle(int width, int height)
 {
     auto shape = new Shape;
-    shape->points = new QSet<QPoint*>;
 
     for (int i = 0; i < width; i++)
     {
@@ -28,7 +30,6 @@ Shape *Shape::make_rectangle(int width, int height)
 Shape *Shape::make_circle(int diamiter)
 {
     auto shape = new Shape;
-    shape->points = new QSet<QPoint*>;
 
     const double radius = diamiter / 2;
     const double steps = radius * radius;
@@ -112,18 +113,19 @@ QSet<QPoint*> *Shape::centerVectors()
     return vectors;
 }
 
-void Shape::minkowski_addition(Shape *shape)
+Shape *Shape::minkowski_addition(Shape *shape, Shape *over)
 {
-    auto vectors = shape->centerVectors();
+    auto result = new Shape;
 
-    auto oldPoints = QSet<QPoint*>(*points);
-    points->clear();
+    auto vectors = over->centerVectors();
 
-    for (auto i = oldPoints.begin(); i != oldPoints.end(); ++i)
+    for (auto i = shape->points->begin(); i != shape->points->end(); ++i)
     {
         for (auto j = vectors->begin(); j != vectors->end(); ++j)
         {
-            points->insert(new QPoint(*(*i) + *(*j)));
+            result->points->insert(new QPoint(*(*i) + *(*j)));
         }
     }
+
+    return result;
 }

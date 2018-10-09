@@ -24,10 +24,7 @@ MainWindow::MainWindow()
     r2->rotate(-0.2);
     r2->color = QColor(255, 0, 0);
 
-    r3 = Shape::make_rectangle(71, 71);
-    r3->translate(50, 100);
-    r3->rotate(0.3);
-    r3->minkowski_addition(r2);
+    r3 = Shape::minkowski_addition(r1, r2);
     r3->color = QColor(128, 194, 255);
 
     // SECOND:
