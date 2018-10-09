@@ -26,10 +26,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    rectangle.cpp \
-    drawable.cpp
+    drawable.cpp \
+    shape.cpp
 
 HEADERS += \
         mainwindow.h \
-    rectangle.h \
-    drawable.h
+    drawable.h \
+    shape.h
