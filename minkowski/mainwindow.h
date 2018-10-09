@@ -15,6 +15,8 @@ private:
     Shape *r2;
     Shape *r3;
 
+    Shape *c1;
+
     QTimer *timer;
 
 public:

@@ -3,6 +3,8 @@
 #include <QPainter>
 #include <QtMath>
 
+#define PI 3.14
+
 Shape::Shape() : Drawable() {}
 
 Shape::~Shape() {}
@@ -17,6 +19,28 @@ Shape *Shape::make_rectangle(int width, int height)
         for (int j = 0; j < height; j++)
         {
             shape->points->insert(new QPoint(i, j));
+        }
+    }
+
+    return shape;
+}
+
+Shape *Shape::make_circle(int diamiter)
+{
+    auto shape = new Shape;
+    shape->points = new QSet<QPoint*>;
+
+    const double radius = diamiter / 2;
+    const double steps = radius * radius;
+    const double step = 2 * M_PI / steps;
+
+    for (double i = 0; i < radius; i++)
+    {
+        for (double j = 0; j < 2 * M_PI; j += step)
+        {
+            int x = static_cast<int>(i * qCos(j));
+            int y = static_cast<int>(i * qSin(j));
+            shape->points->insert(new QPoint(x, y));
         }
     }
 
@@ -92,10 +116,10 @@ void Shape::minkowski_addition(Shape *shape)
 {
     auto vectors = shape->centerVectors();
 
-    auto oldPoints = new QSet<QPoint*>(*points);
+    auto oldPoints = QSet<QPoint*>(*points);
     points->clear();
 
-    for (auto i = oldPoints->begin(); i != oldPoints->end(); ++i)
+    for (auto i = oldPoints.begin(); i != oldPoints.end(); ++i)
     {
         for (auto j = vectors->begin(); j != vectors->end(); ++j)
         {
