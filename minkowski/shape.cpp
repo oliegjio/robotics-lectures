@@ -32,16 +32,17 @@ Shape *Shape::makeCircle(int diamiter)
     auto shape = new Shape;
 
     const double radius = diamiter / 2;
-//    const double steps = radius * radius;
-    const double step = 2 * M_PI / diamiter;
 
-    for (double i = 0; i < radius; i++)
+    for (double i = -radius; i < radius; i++)
     {
-        for (double j = 0; j < 2 * M_PI; j += step)
+        for (double j = -radius; j < radius; j++)
         {
-            int x = static_cast<int>(i * qCos(j));
-            int y = static_cast<int>(i * qSin(j));
-            shape->points->insert(new QPoint(x, y));
+            if ((i < qSqrt(radius - qPow(j, 2))) &&
+                (j < qSqrt(radius - qPow(i, 2))) &&
+                (radius > qPow(i, 2) + qPow(j, 2)))
+            {
+                shape->points->insert(new QPoint(static_cast<int>(i), static_cast<int>(j)));
+            }
         }
     }
 

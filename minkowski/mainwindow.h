@@ -11,13 +11,17 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 private:
-    Shape *r1;
-    Shape *r2;
-    Shape *r3;
+    Shape *n1Shape1;
+    Shape *n1Shape2;
+    Shape *n1Shape3;
 
-    Shape *c1;
-    Shape *c2;
-    Shape *c3;
+    Shape *n2Shape1;
+    Shape *n2Shape2;
+    Shape *n2Shape3;
+
+    Shape *n3Shape1;
+    Shape *n3Shape2;
+    Shape *n3Shape3;
 
     QTimer *timer;
 
