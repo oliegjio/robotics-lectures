@@ -1,8 +1,8 @@
 #ifndef RECTANGLE_H
 #define RECTANGLE_H
 
-#include <QSet>
-#include <QPoint>
+#include <QVector>
+#include <QPointF>
 
 #include "drawable.h"
 
@@ -13,9 +13,9 @@ private:
     Shape();
     ~Shape();
 
-    QSet<QPoint*> *points;
+    QVector<QPointF> points;
 
-    QSet<QPoint*> *centerVectors();
+    QVector<QPointF> centerVectors();
 
 public:
     QColor color;
@@ -27,9 +27,9 @@ public:
     void draw(QWidget *widget);
 
     void rotate(double angle);
-    void translate(int x, int y);
+    void translate(double x, double y);
 
-    QPoint *getCenter();
+    QPointF getCenter();
 };
 
 #endif // RECTANGLE_H

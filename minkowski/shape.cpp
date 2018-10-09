@@ -7,7 +7,7 @@
 
 Shape::Shape() : Drawable()
 {
-    points = new QSet<QPoint*>;
+    points = QVector<QPointF>();
 }
 
 Shape::~Shape() {}
@@ -16,11 +16,11 @@ Shape *Shape::makeRectangle(int width, int height)
 {
     auto shape = new Shape;
 
-    for (int i = 0; i < width; i++)
+    for (double i = 0; i < width; i++)
     {
-        for (int j = 0; j < height; j++)
+        for (double j = 0; j < height; j++)
         {
-            shape->points->insert(new QPoint(i, j));
+            shape->points.append(QPointF(i, j));
         }
     }
 
@@ -31,17 +31,17 @@ Shape *Shape::makeCircle(int diamiter)
 {
     auto shape = new Shape;
 
-    const double radius = diamiter / 2;
+    const double r = diamiter / 2;
 
-    for (double i = -radius; i < radius; i++)
+    for (double i = -r; i < r; i++)
     {
-        for (double j = -radius; j < radius; j++)
+        for (double j = -r; j < r; j++)
         {
-            if ((i < qSqrt(radius - qPow(j, 2))) &&
-                (j < qSqrt(radius - qPow(i, 2))) &&
-                (radius > qPow(i, 2) + qPow(j, 2)))
+            if ((i < qSqrt(r - qPow(j, 2))) &&
+                (j < qSqrt(r - qPow(i, 2))) &&
+                (r > qPow(i, 2) + qPow(j, 2)))
             {
-                shape->points->insert(new QPoint(static_cast<int>(i), static_cast<int>(j)));
+                shape->points.append(QPointF(i, j));
             }
         }
     }
@@ -54,61 +54,58 @@ void Shape::draw(QWidget *widget)
     QPainter painter(widget);
     painter.setPen(color);
 
-    for (auto i = points->begin(); i != points->end(); ++i)
+    for (int i = 0; i < points.size(); i++)
     {
-        painter.drawPoint((*i)->x(), (*i)->y());
+        painter.drawPoint(points[i].x(), points[i].y());
     }
 }
 
-QPoint *Shape::getCenter()
+QPointF Shape::getCenter()
 {
-    int dx = 0;
-    int dy = 0;
-    for (auto i = points->begin(); i != points->end(); ++i)
+    auto center = QPointF(0, 0);
+    for (int i = 0; i < points.size(); i++)
     {
-        dx += (*i)->x();
-        dy += (*i)->y();
+        center += points[i];
     }
-    dx /= points->size();
-    dy /= points->size();
-    return new QPoint(dx, dy);
+    center /= points.size();
+    return center;
 }
 
 void Shape::rotate(double angle)
 {
-    QPoint *center = getCenter();
+    QPointF center = getCenter();
 
-    translate(-center->x(), -center->y());
+    translate(-center.x(), -center.y());
 
     double cos = qCos(angle);
     double sin = qSin(angle);
 
-    for (auto i = points->begin(); i != points->end(); ++i)
+    for (int i = 0; i < points.size(); i++)
     {
-        (*i)->setX(static_cast<int>((*i)->x() * cos - (*i)->y() * sin));
-        (*i)->setY(static_cast<int>((*i)->x() * sin + (*i)->y() * cos));
+        points[i].setX(points[i].x() * cos - points[i].y() * sin);
+        points[i].setY(points[i].x() * sin + points[i].y() * cos);
     }
 
-    translate(center->x(), center->y());
+    translate(center.x(), center.y());
 }
 
-void Shape::translate(int x, int y)
+void Shape::translate(double x, double y)
 {
-    for (auto i = points->begin(); i != points->end(); ++i)
+    for (int i = 0; i < points.size(); i++)
     {
-        (*i)->setX((*i)->x() + x);
-        (*i)->setY((*i)->y() + y);
+        points[i].setX(points[i].x() + x);
+        points[i].setY(points[i].y() + y);
     }
 }
 
-QSet<QPoint*> *Shape::centerVectors()
+QVector<QPointF> Shape::centerVectors()
 {
-    auto vectors = new QSet<QPoint*>;
-    QPoint *center = getCenter();
+    auto vectors = QVector<QPointF>();
+    QPointF center = getCenter();
 
-    for (auto i = points->begin(); i != points->end(); ++i)
+    for (int i = 0; i < points.size(); i++)
     {
-        vectors->insert(new QPoint(*(*i) - *center));
+        vectors.append(QPointF(points[i] - center));
     }
 
     return vectors;
@@ -120,11 +117,11 @@ Shape *Shape::minkowskiSum(Shape *shape, Shape *over)
 
     auto vectors = over->centerVectors();
 
-    for (auto i = shape->points->begin(); i != shape->points->end(); ++i)
+    for (int i = 0; i < shape->points.size(); i++)
     {
-        for (auto j = vectors->begin(); j != vectors->end(); ++j)
+        for (int j = 0; j < vectors.size(); j++)
         {
-            result->points->insert(new QPoint(*(*i) + *(*j)));
+            result->points.append(QPointF(shape->points[i] + vectors[j]));
         }
     }
 

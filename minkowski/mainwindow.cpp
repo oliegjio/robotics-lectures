@@ -89,5 +89,5 @@ void MainWindow::paintEvent(QPaintEvent *event)
 
 void MainWindow::loop()
 {
-    update();
+//    update();
 }
