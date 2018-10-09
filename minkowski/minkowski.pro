@@ -11,9 +11,13 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     drawable.cpp \
-    shape.cpp
+    shape.cpp \
+    world.cpp \
+    canvas.cpp
 
 HEADERS += \
     mainwindow.h \
     drawable.h \
-    shape.h
+    shape.h \
+    world.h \
+    canvas.h

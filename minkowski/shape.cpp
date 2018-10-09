@@ -3,9 +3,7 @@
 #include <QPainter>
 #include <QtMath>
 
-#define PI 3.14
-
-Shape::Shape() : Drawable()
+Shape::Shape() : QObject(), Drawable()
 {
     points = QVector<QPointF>();
 }

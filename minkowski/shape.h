@@ -6,8 +6,9 @@
 
 #include "drawable.h"
 
-class Shape : public Drawable
+class Shape : public QObject, Drawable
 {
+    Q_OBJECT
 
 private:
     Shape();
