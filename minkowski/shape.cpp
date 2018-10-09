@@ -12,7 +12,7 @@ Shape::Shape() : Drawable()
 
 Shape::~Shape() {}
 
-Shape *Shape::make_rectangle(int width, int height)
+Shape *Shape::makeRectangle(int width, int height)
 {
     auto shape = new Shape;
 
@@ -27,7 +27,7 @@ Shape *Shape::make_rectangle(int width, int height)
     return shape;
 }
 
-Shape *Shape::make_circle(int diamiter)
+Shape *Shape::makeCircle(int diamiter)
 {
     auto shape = new Shape;
 
@@ -113,7 +113,7 @@ QSet<QPoint*> *Shape::centerVectors()
     return vectors;
 }
 
-Shape *Shape::minkowski_addition(Shape *shape, Shape *over)
+Shape *Shape::minkowskiAddition(Shape *shape, Shape *over)
 {
     auto result = new Shape;
 

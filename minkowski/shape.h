@@ -20,9 +20,9 @@ private:
 public:
     QColor color;
 
-    static Shape *make_rectangle(int width, int height);
-    static Shape *make_circle(int radius);
-    static Shape *minkowski_addition(Shape *shape, Shape *over);
+    static Shape *makeRectangle(int width, int height);
+    static Shape *makeCircle(int radius);
+    static Shape *minkowskiAddition(Shape *shape, Shape *over);
 
     void draw(QWidget *widget);
 
