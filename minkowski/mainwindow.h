@@ -4,16 +4,16 @@
 #include <QMainWindow>
 #include <QTimer>
 
-#include "rectangle.h"
+#include "shape.h"
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 private:
-    Rectangle *r1;
-    Rectangle *r2;
-    Rectangle *r3;
+    Shape *r1;
+    Shape *r2;
+    Shape *r3;
 
     QTimer *timer;
 

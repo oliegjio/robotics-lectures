@@ -1,42 +1,36 @@
 #ifndef RECTANGLE_H
 #define RECTANGLE_H
 
-#include <QWidget>
-#include <QVector>
-#include <QPair>
+#include <QSet>
+#include <QPoint>
 
 #include "drawable.h"
 
-typedef QPair<int, int> Point;
-typedef QVector<Point> Vector1;
-typedef QVector<Vector1> Vector2;
-
-class Rectangle : public Drawable
+class Shape : public Drawable
 {
+
 private:
-    Rectangle();
+    Shape();
+    ~Shape();
 
-    QColor color;
+    QSet<QPoint*> *points;
 
-    Vector2 points;
+    QSet<QPoint*> *centerVectors();
 
 public:
-    Rectangle(int x, int y, int width, int height);
-    ~Rectangle();
+    QColor color;
+
+    static Shape *make_rectangle(int width, int height);
+    static Shape *make_circle(int radius);
 
     void draw(QWidget *widget);
 
-    void rotate(float angle);
+    void rotate(double angle);
     void translate(int x, int y);
 
-    Point getCenter();
-    Vector1 vectorsFromCenter();
+    QPoint *getCenter();
 
-    Rectangle *copy();
-
-    static Rectangle *minkowski_addition(Rectangle *rectangle, Vector1 centerVectors);
-
-    void setColor(QColor color);
+    void minkowski_addition(Shape *shape);
 };
 
 #endif // RECTANGLE_H

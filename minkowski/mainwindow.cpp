@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 
-#include "rectangle.h"
+#include "shape.h"
 
 #include <QPaintEvent>
 #include <QDebug>
@@ -12,18 +12,23 @@ MainWindow::MainWindow()
 {
     timer = new QTimer();
 
-    r1 = new Rectangle(150, 150, 71, 71);
-    r1->setColor(QColor(255, 0, 0));
+    r1 = Shape::make_rectangle(71, 71);
+    r1->translate(150, 150);
     r1->rotate(0.3);
+    r1->color = QColor(255, 0, 0);
 
-    r2 = new Rectangle(50, 50, 21, 41);
-    r2->setColor(QColor(0, 255, 0));
+    r2 = Shape::make_rectangle(21, 41);
+    r2->translate(20, 20);
     r2->rotate(-0.2);
+    r2->color = QColor(0, 255, 0);
 
-    r3 = Rectangle::minkowski_addition(r1, r2->vectorsFromCenter());
-    r3->setColor(QColor(0, 0, 255));
+    r3 = Shape::make_rectangle(71, 71);
+    r3->translate(150, 150);
+    r3->rotate(0.3);
+    r3->minkowski_addition(r2);
+    r3->color = QColor(0, 0, 255);
 
-    timer->setInterval(100);
+    timer->setInterval(1000);
     timer->start();
     connect(timer, SIGNAL(timeout()), this, SLOT(loop()));
 
@@ -34,6 +39,8 @@ MainWindow::~MainWindow() {}
 
 void MainWindow::paintEvent(QPaintEvent *event)
 {
+    Q_UNUSED(event)
+
     r3->draw(this);
     r1->draw(this);
     r2->draw(this);
