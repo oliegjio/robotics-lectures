@@ -32,8 +32,8 @@ Shape *Shape::makeCircle(int diamiter)
     auto shape = new Shape;
 
     const double radius = diamiter / 2;
-    const double steps = radius * radius;
-    const double step = 2 * M_PI / steps;
+//    const double steps = radius * radius;
+    const double step = 2 * M_PI / diamiter;
 
     for (double i = 0; i < radius; i++)
     {

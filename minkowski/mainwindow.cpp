@@ -29,13 +29,16 @@ MainWindow::MainWindow()
 
     // SECOND:
 
-    c1 = Shape::makeCircle(201);
+    c1 = Shape::makeCircle(101);
     c1->translate(350, 200);
     c1->color = QColor(255, 0, 0);
 
-    c2 = Shape::makeCircle(71);
+    c2 = Shape::makeCircle(51);
     c2->translate(200, 50);
     c2->color = QColor(0, 255, 0);
+
+    c3 = Shape::minkowskiAddition(c1, c2);
+    c3->color = QColor(0, 0, 255);
 
     // REST:
 
@@ -56,6 +59,7 @@ void MainWindow::paintEvent(QPaintEvent *event)
     r1->draw(this);
     r2->draw(this);
 
+    c3->draw(this);
     c1->draw(this);
     c2->draw(this);
 }
