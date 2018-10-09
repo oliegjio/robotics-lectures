@@ -12,8 +12,10 @@ MainWindow::MainWindow()
 {
     timer = new QTimer();
 
+    // FIRST:
+
     r1 = Shape::make_rectangle(71, 71);
-    r1->translate(150, 150);
+    r1->translate(50, 100);
     r1->rotate(0.3);
     r1->color = QColor(0, 128, 255);
 
@@ -23,14 +25,22 @@ MainWindow::MainWindow()
     r2->color = QColor(255, 0, 0);
 
     r3 = Shape::make_rectangle(71, 71);
-    r3->translate(150, 150);
+    r3->translate(50, 100);
     r3->rotate(0.3);
     r3->minkowski_addition(r2);
     r3->color = QColor(128, 194, 255);
 
-    c1 = Shape::make_circle(60);
-    c1->translate(100, 40);
+    // SECOND:
+
+    c1 = Shape::make_circle(201);
+    c1->translate(350, 200);
     c1->color = QColor(255, 0, 0);
+
+    c2 = Shape::make_circle(71);
+    c2->translate(200, 50);
+    c2->color = QColor(0, 255, 0);
+
+    // REST:
 
     timer->setInterval(1000);
     timer->start();
@@ -50,6 +60,7 @@ void MainWindow::paintEvent(QPaintEvent *event)
     r2->draw(this);
 
     c1->draw(this);
+    c2->draw(this);
 }
 
 void MainWindow::loop()
