@@ -3,8 +3,12 @@
 
 #include <QSet>
 #include <QPoint>
+#include <QPair>
 
 #include "drawable.h"
+
+typedef QPair<double, double> PairD;
+typedef QPair<int, int> PairI;
 
 class Shape : public Drawable
 {
@@ -13,9 +17,10 @@ private:
     Shape();
     ~Shape();
 
-    QSet<QPoint*> *points;
+    QSet<PairD*> *pointsD;
+    QSet<PairI*> *pointsI;
 
-    QSet<QPoint*> *centerVectors();
+    QSet<PairD*> *centerVectors();
 
 public:
     QColor color;

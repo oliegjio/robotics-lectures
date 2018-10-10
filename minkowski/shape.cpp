@@ -7,7 +7,8 @@
 
 Shape::Shape() : Drawable()
 {
-    points = new QSet<QPoint*>;
+    pointsD = new QSet<PairD*>;
+    pointsI = new QSet<PairI*>;
 }
 
 Shape::~Shape() {}
@@ -16,11 +17,11 @@ Shape *Shape::makeRectangle(int width, int height)
 {
     auto shape = new Shape;
 
-    for (int i = 0; i < width; i++)
+    for (double i = 0; i < width; i++)
     {
-        for (int j = 0; j < height; j++)
+        for (double j = 0; j < height; j++)
         {
-            shape->points->insert(new QPoint(i, j));
+            shape->pointsD->insert(new PairD(i, j));
         }
     }
 
@@ -41,7 +42,7 @@ Shape *Shape::makeCircle(int diamiter)
                 (j < qSqrt(radius - qPow(i, 2))) &&
                 (radius > qPow(i, 2) + qPow(j, 2)))
             {
-                shape->points->insert(new QPoint(static_cast<int>(i), static_cast<int>(j)));
+                shape->pointsD->insert(new PairD(i, j));
             }
         }
     }
@@ -54,9 +55,9 @@ void Shape::draw(QWidget *widget)
     QPainter painter(widget);
     painter.setPen(color);
 
-    for (auto i = points->begin(); i != points->end(); ++i)
+    for (auto i = pointsD->begin(); i != pointsD->end(); ++i)
     {
-        painter.drawPoint((*i)->x(), (*i)->y());
+        painter.drawPoint(static_cast<int>((*i)->first), static_cast<int>((*i)->second));
     }
 }
 
@@ -64,13 +65,13 @@ QPoint *Shape::getCenter()
 {
     int dx = 0;
     int dy = 0;
-    for (auto i = points->begin(); i != points->end(); ++i)
+    for (auto i = pointsD->begin(); i != pointsD->end(); ++i)
     {
-        dx += (*i)->x();
-        dy += (*i)->y();
+        dx += (*i)->first;
+        dy += (*i)->second;
     }
-    dx /= points->size();
-    dy /= points->size();
+    dx /= pointsD->size();
+    dy /= pointsD->size();
     return new QPoint(dx, dy);
 }
 
@@ -83,10 +84,10 @@ void Shape::rotate(double angle)
     double cos = qCos(angle);
     double sin = qSin(angle);
 
-    for (auto i = points->begin(); i != points->end(); ++i)
+    for (auto i = pointsD->begin(); i != pointsD->end(); ++i)
     {
-        (*i)->setX(static_cast<int>((*i)->x() * cos - (*i)->y() * sin));
-        (*i)->setY(static_cast<int>((*i)->x() * sin + (*i)->y() * cos));
+        (*i)->first = (*i)->first * cos - (*i)->second * sin;
+        (*i)->second = (*i)->first * sin + (*i)->second * cos;
     }
 
     translate(center->x(), center->y());
@@ -94,21 +95,21 @@ void Shape::rotate(double angle)
 
 void Shape::translate(int x, int y)
 {
-    for (auto i = points->begin(); i != points->end(); ++i)
+    for (auto i = pointsD->begin(); i != pointsD->end(); ++i)
     {
-        (*i)->setX((*i)->x() + x);
-        (*i)->setY((*i)->y() + y);
+        (*i)->first = (*i)->first + x;
+        (*i)->second = (*i)->second + y;
     }
 }
 
-QSet<QPoint*> *Shape::centerVectors()
+QSet<PairD*> *Shape::centerVectors()
 {
-    auto vectors = new QSet<QPoint*>;
+    auto vectors = new QSet<PairD*>;
     QPoint *center = getCenter();
 
-    for (auto i = points->begin(); i != points->end(); ++i)
+    for (auto i = pointsD->begin(); i != pointsD->end(); ++i)
     {
-        vectors->insert(new QPoint(*(*i) - *center));
+        vectors->insert(new PairD(*(*i) - *center));
     }
 
     return vectors;
@@ -120,11 +121,11 @@ Shape *Shape::minkowskiAddition(Shape *shape, Shape *over)
 
     auto vectors = over->centerVectors();
 
-    for (auto i = shape->points->begin(); i != shape->points->end(); ++i)
+    for (auto i = shape->pointsD->begin(); i != shape->pointsD->end(); ++i)
     {
         for (auto j = vectors->begin(); j != vectors->end(); ++j)
         {
-            result->points->insert(new QPoint(*(*i) + *(*j)));
+            result->pointsD->insert(new QPoint(*(*i) + *(*j)));
         }
     }
 

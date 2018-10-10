@@ -89,5 +89,7 @@ void MainWindow::paintEvent(QPaintEvent *event)
 
 void MainWindow::loop()
 {
+    n1Shape2->rotate(0.1);
+
     update();
 }
