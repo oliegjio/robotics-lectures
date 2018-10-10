@@ -115,7 +115,7 @@ QSet<PairD*> *Shape::centerVectors()
     return vectors;
 }
 
-Shape *Shape::minkowskiAddition(Shape *shape, Shape *over)
+Shape *Shape::minkowskiSum(Shape *shape, Shape *over)
 {
     auto result = new Shape;
 

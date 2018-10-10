@@ -27,7 +27,7 @@ public:
 
     static Shape *makeRectangle(int width, int height);
     static Shape *makeCircle(int radius);
-    static Shape *minkowskiAddition(Shape *shape, Shape *over);
+    static Shape *minkowskiSum(Shape *shape, Shape *over);
 
     void draw(QWidget *widget);
 

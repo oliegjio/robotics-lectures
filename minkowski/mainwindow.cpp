@@ -29,7 +29,7 @@ MainWindow::MainWindow()
     n1Shape2->rotate(-20 * M_PI / 180);
     n1Shape2->color = color2;
 
-    n1Shape3 = Shape::minkowskiAddition(n1Shape1, n1Shape2);
+    n1Shape3 = Shape::minkowskiSum(n1Shape1, n1Shape2);
     n1Shape3->color = color3;
 
     // SECOND:
@@ -42,7 +42,7 @@ MainWindow::MainWindow()
     n2Shape2->translate(200, 50);
     n2Shape2->color = color2;
 
-    n2Shape3 = Shape::minkowskiAddition(n2Shape1, n2Shape2);
+    n2Shape3 = Shape::minkowskiSum(n2Shape1, n2Shape2);
     n2Shape3->color = color3;
 
     // THIRD:
@@ -56,7 +56,7 @@ MainWindow::MainWindow()
     n3Shape2->translate(200, 250);
     n3Shape2->color = color2;
 
-    n3Shape3 = Shape::minkowskiAddition(n3Shape1, n3Shape2);
+    n3Shape3 = Shape::minkowskiSum(n3Shape1, n3Shape2);
     n3Shape3->color = color3;
 
     // REST:
@@ -65,7 +65,7 @@ MainWindow::MainWindow()
     timer->start();
     connect(timer, SIGNAL(timeout()), this, SLOT(loop()));
 
-    resize(400, 400);
+    resize(500, 500);
 }
 
 MainWindow::~MainWindow() {}
